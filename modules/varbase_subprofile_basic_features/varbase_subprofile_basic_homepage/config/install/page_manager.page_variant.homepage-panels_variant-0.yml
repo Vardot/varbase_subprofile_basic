@@ -12,8 +12,8 @@ label: Homepage
 variant: panels_variant
 variant_settings:
   blocks:
-    a34553b6-a2ca-4102-b6a1-52ecbf9e5a95:
-      id: 'views_block:varbase_heroslider_media-varbase_heroslider_media'
+    e5ed500c-d1d5-4105-9ba2-4028fdb35ee0:
+      id: 'views_block:content_recent-block_1'
       label: ''
       provider: views
       label_display: '0'
@@ -21,20 +21,8 @@ variant_settings:
       items_per_page: none
       context_mapping: {  }
       region: main
-      uuid: a34553b6-a2ca-4102-b6a1-52ecbf9e5a95
+      uuid: e5ed500c-d1d5-4105-9ba2-4028fdb35ee0
       weight: 1
-    9658db3d-0fa3-4070-9a11-cb00eb25644e:
-      id: 'block_content:10e18105-c352-4438-8419-4ccc1deb8699'
-      label: 'Home page carousel'
-      provider: block_content
-      label_display: '0'
-      status: true
-      info: ''
-      view_mode: full
-      context_mapping: {  }
-      region: main
-      uuid: 9658db3d-0fa3-4070-9a11-cb00eb25644e
-      weight: 2
   id: panels_variant
   uuid: d61dddde-a5ea-42e0-841f-f5468212c9c8
   label: null

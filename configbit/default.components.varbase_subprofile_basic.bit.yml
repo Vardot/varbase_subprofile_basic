@@ -9,7 +9,7 @@ config_bit:
     install_default_components: true
     list:
       dependencies:
-        # Enable listed modules in order at this installation step. 
+        # Enable listed modules in order at this installation step.
         - libraries
         # Enable listed Varbase modules in order at this installation step.
         - varbase_core
@@ -19,10 +19,10 @@ config_bit:
         - varbase_email
         - varbase_security
         - varbase_seo
-        - varbase_total_control
-        - varbase_tour
-        - varbase_update_helper
-        - varbase_default_content
+#        - varbase_total_control    # Uncomment if you want to have.
+#        - varbase_tour             # Uncomment if you want to have.
+#        - varbase_update_helper    # Uncomment if you want to have.
+#        - varbase_default_content  # Uncomment if you want to have.
         # Enable default varbase sub profile basic base modules and features.
         - vmi
         - varbase_heroslider_media
@@ -31,4 +31,4 @@ config_bit:
 #        - varbase_subprofile_basic_CUSTOM_FEATRE_01
 #        - varbase_subprofile_basic_CUSTOM_FEATRE_02
 #        - varbase_subprofile_basic_CUSTOM_FEATRE_03
-#        - varbase_subprofile_basic_CUSTOM_FEATRE_04 
+#        - varbase_subprofile_basic_CUSTOM_FEATRE_04
