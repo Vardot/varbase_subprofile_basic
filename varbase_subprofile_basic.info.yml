@@ -12,10 +12,10 @@ dependencies:
 themes:
   # Contrib themes.
   - adminimal_theme
-  - bootstrap
+  - bootstrap_barrio
 
   # Custom themes.
-  - vartheme
+  - vartheme_bs4
   - vartheme_admin
 distribution:
   name: Varbase Sub Profile Basic

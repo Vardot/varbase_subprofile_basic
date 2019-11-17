@@ -28,7 +28,7 @@ function varbase_subprofile_basic_form_install_configure_form_alter(&$form, Form
 function varbase_subprofile_basic_install_tasks(&$install_state) {
   include_once drupal_get_path('profile', 'varbase') . '/varbase.profile';
   $varbase_install_tasks = varbase_install_tasks($install_state);
-  
+
   return [
     'varbase_multilingual_configuration_form' => $varbase_install_tasks['varbase_multilingual_configuration_form'],
     'varbase_configure_multilingual' => $varbase_install_tasks['varbase_configure_multilingual'],
@@ -96,14 +96,14 @@ function varbase_subprofile_basic_assemble_extra_components(array &$install_stat
           // Add the checked extra feature to the batch process to be enabled.
           $batch['operations'][] = ['varbase_assemble_extra_component_then_install', (array) $extra_feature_key];
         }
-       
+
         if (count($selected_extra_features_configs) &&
             isset($extraFeatures[$extra_feature_key]['config_form']) &&
             $extraFeatures[$extra_feature_key]['config_form'] == TRUE &&
             isset($extraFeatures[$extra_feature_key]['formbit'])) {
-          
-          $formbit_file_name = drupal_get_path('profile', 'varbase') . '/' . $extraFeatures[$extra_feature_key]['formbit'];
-          
+
+          $formbit_file_name = drupal_get_path('profile', 'varbase_subprofile_basic') . '/' . $extraFeatures[$extra_feature_key]['formbit'];
+
           if (file_exists($formbit_file_name)) {
 
             // Added the selected extra feature configs to the batch process
@@ -170,14 +170,6 @@ function varbase_subprofile_basic_assemble_extra_components(array &$install_stat
     // Fix entity updates to clear up any mismatched entity.
     $batch['operations'][] = ['varbase_fix_entity_update', (array) TRUE];
 
-  }
-  
-  // Uninstall list of not needed modules after the config had been loaded.
-  // To be loaded from a ConfigBit yml file.
-  $uninstall_components = ['varbase_default_content'];
-  if (count($uninstall_components) > 0) {
-    foreach ($uninstall_components as $uninstall_component)
-    $batch['operations'][] = ['varbase_uninstall_component', (array) $uninstall_component];
   }
 
   return $batch;
