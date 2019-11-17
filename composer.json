@@ -2,7 +2,7 @@
   "name": "vardot/varbase_subprofile_basic",
   "description": "Varbase Sub Profile Basic template.",
   "type": "drupal-profile",
-  "license": "PRIVATE",
+  "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "authors": [
