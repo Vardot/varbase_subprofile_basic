@@ -1,0 +1,11 @@
+name: 'Varbase Subprofile Basic Homepage Demo'
+description: 'Homepage demo feature for varbase sub profile basic'
+type: module
+core: 8.x
+dependencies:
+  - varbase_subprofile_basic_homepage
+  - default_content
+  - better_normalizers
+
+version: 8.x-1.x-dev
+package: 'Varbase Sub Profile Basic'

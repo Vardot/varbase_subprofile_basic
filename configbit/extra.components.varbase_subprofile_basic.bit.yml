@@ -1,0 +1,16 @@
+# ==============================================================================
+# List of varbase_subprofile_basic extra components, which they will be listed
+# in the Extra feature form, when we install varbase subprofile basic.
+# ==============================================================================
+config_bit:
+  type: list
+  for: varbase_subprofile_basic.info.yml
+  when:
+    show_extra_components: true
+    list:
+      dependencies:
+        varbase_search:
+          title: "Varbase Search"
+          description: "A suite of site search engine tools to help you build better search performance, customization, and search experience. Built using <a href=\"https://www.drupal.org/project/search_api\" target=\"_blank\">Search API</a>."
+          selected: false
+          config_form: false
