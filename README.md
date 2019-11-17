@@ -1,9 +1,22 @@
 # Varbase Sub Profile Basic Template
 
-### Steps for creating a new sub profile from Varbase:
-1. Copy entire directory and rename directory, profile, install and info,
-   replace any varbase_subprofile_basic, or VARBASE_SUBPROFILE_BASIC.
-2. Edit files in configbit and add any additional components you need.
-3. Edit src/Form/SubProfileAssemblerForm and replace profile name in
-   buildForm and submitForm to switch to your profile, you man keep using the
-   default varbase profile for extra features, demo content.
+## About Varbase Sub Profile Basic
+
+## Who Can Benefit From Varbase Sub Profile Basic?
+
+To install the dev version of Varbase Sub Profile Basic 8.7.x run this command:
+```
+composer create-project vardot/varbase-subprofile-basic-project:8.7.x-dev PROJECT_DIR_NAME --stability dev --no-interaction
+```
+
+# [Install with Composer](https://github.com/Vardot/varbase-subprofile-basic-project)
+
+Built using [Varbase](https://www.drupal.org/project/varbase), the base
+ distribution delivered to you by [Vardot](https://www.vardot.com)
+
+
+## [Varbase Developer Guide](https://docs.varbase.vardot.com)
+
+## [CHANGELOG for Varbase Sub Profile Basic](https://github.com/Vardot/varbase_subprofile_basic/blob/8.x-7.x/CHANGELOG.md)
+
+## [General instructions on how to update Varbase Sub Profile Basic](https://github.com/Vardot/varbase_subprofile_basic/blob/8.x-7.x/UPDATE.md)
