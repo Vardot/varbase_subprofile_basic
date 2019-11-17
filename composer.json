@@ -3,8 +3,6 @@
   "description": "Varbase Sub Profile Basic template.",
   "type": "drupal-profile",
   "license": "GPL-2.0-or-later",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "authors": [
     {
       "name": "Vardot",
@@ -13,8 +11,8 @@
     }
   ],
   "support": {
-    "issues": "https://bitbucket.org/Vardot/varbase_subprofile_basic/issues",
-    "source": "https://bitbucket.org/Vardot/varbase_subprofile_basic"
+    "issues": "https://github.com/Vardot/varbase_subprofile_basic/issues",
+    "source": "https://github.com/Vardot/varbase_subprofile_basic"
   },
   "repositories": {
     "drupal": {
@@ -51,6 +49,11 @@
       "drupal/core": "dist"
     }
   },
+  "autoload": {
+    "psr-4": {
+      "VarbaseSubProfileBasic\\composer\\": "src/composer"
+    }
+  },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "post-install-cmd": [
@@ -66,7 +69,7 @@
     ],
     "post-drupal-scaffold-cmd": [
       "Varbase\\composer\\ScriptHandler::postDrupalScaffoldProcedure",
-      "Vardoc\\composer\\ScriptHandler::postDrupalScaffoldSubProfileProcedure"
+      "VarbaseSubProfileBasic\\composer\\ScriptHandler::postDrupalScaffoldSubProfileProcedure"
     ]
   },
   "minimum-stability": "dev",
@@ -127,7 +130,7 @@
     "enable-patching": true,
     "composer-exit-on-patch-failure": true,
     "patchLevel": {
-      "drupal/core": "-p2"
+       "drupal/core": "-p2"
     }
   }
 }
