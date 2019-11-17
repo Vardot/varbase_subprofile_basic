@@ -11,18 +11,17 @@ config_bit:
       dependencies:
         # Enable listed modules in order at this installation step. 
         - libraries
-        # Enable listed Varbase modules in order at this installation step. 
+        # Enable listed Varbase modules in order at this installation step.
         - varbase_core
+        - varbase_media
+        - varbase_editor
         - varbase_admin
-        - varbase_total_control
+        - varbase_email
         - varbase_security
         - varbase_seo
-        - varbase_editor
-        - varbase_media
-        - varbase_webform
-        - varbase_page
-        - varbase_landing
+        - varbase_total_control
         - varbase_tour
+        - varbase_update_helper
         - varbase_default_content
         # Enable default varbase sub profile basic base modules and features.
         - vmi
