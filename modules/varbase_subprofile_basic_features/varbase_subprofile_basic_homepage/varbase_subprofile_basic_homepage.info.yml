@@ -9,5 +9,5 @@ dependencies:
   - varbase_carousels
   - varbase_heroslider_media
   - views
-version: 8.x-7.x-dev
+version: 8.x-8.x-dev
 package: 'Varbase Sub Profile Basic'
