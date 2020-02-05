@@ -18,3 +18,5 @@ themes:
   - vartheme_admin
 distribution:
   name: Varbase Sub Profile Basic
+  install:
+    theme: vartheme_admin
