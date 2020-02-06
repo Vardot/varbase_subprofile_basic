@@ -5,6 +5,7 @@ namespace VarbaseSubProfileBasic\composer;
 use Composer\Semver\Comparator;
 use Symfony\Component\Filesystem\Filesystem;
 use Composer\EventDispatcher\Event;
+use Symfony\Component\Yaml\Yaml;
 use DrupalFinder\DrupalFinder;
 
 /**
