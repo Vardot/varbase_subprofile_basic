@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Enables modules and site configuration for a Varbase sub profile basic
@@ -41,7 +42,7 @@ function varbase_subprofile_basic_install_tasks(&$install_state) {
       'type' => 'form',
       'function' => SubProfileAssemblerForm::class,
     ],
-    'varbase_subprofile_basic_assemble_extra_components' => [
+    'vardoc_assemble_extra_components' => [
       'display_name' => t('Assemble extra components'),
       'display' => TRUE,
       'type' => 'batch',
@@ -72,7 +73,7 @@ function varbase_subprofile_basic_install_tasks_alter(array &$tasks, array $inst
 function varbase_subprofile_basic_assemble_extra_components(array &$install_state) {
   include_once drupal_get_path('profile', 'varbase') . '/varbase.profile';
 
-  // Default varbase_subprofile_basic components, which must be installed.
+  // Default Varbase Subprofile Basic components, which must be installed.
   $default_components = ConfigBit::getList('configbit/default.components.varbase_subprofile_basic.bit.yml', 'install_default_components', TRUE, 'dependencies', 'profile', 'varbase_subprofile_basic');
 
   $batch = [];
@@ -201,7 +202,7 @@ function varbase_subprofile_basic_assemble_extra_components(array &$install_stat
 }
 
 /**
- * varbase_subprofile_basic after install finished.
+ * Varbase Subprofile Basic after install finished.
  *
  * @param array $install_state
  *   The current install state.

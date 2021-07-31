@@ -4,10 +4,26 @@ description: 'Varbase Sub Profile Basic.'
 core_version_requirement: ^9
 version: 9.0.x-dev
 base profile: varbase
-dependencies:
+project: varbase_subprofile_basic
+distribution:
+  name: Varbase Sub Profile Basic
+  install:
+    theme: vartheme_claro
+install:
+  - system
   - action
+  - user
+  - node
+  - block
+  - datetime
+  - help
+  - image
+  - views
+  - file
   - tracker
   - aggregator
+  - menu_block
+  - block_content
 themes:
   - bootstrap_barrio
   - vartheme_bs4
