@@ -57,7 +57,7 @@ function varbase_subprofile_basic_install_tasks(&$install_state) {
 function varbase_subprofile_basic_install_tasks_alter(array &$tasks, array $install_state) {
   include_once drupal_get_path('profile', 'varbase') . '/varbase.profile';
 
-  $tasks['install_finished']['function'] = 'vardoc_after_install_finished';
+  $tasks['install_finished']['function'] = 'varbase_subprofile_basic_after_install_finished';
 }
 
 /**
@@ -72,7 +72,7 @@ function varbase_subprofile_basic_install_tasks_alter(array &$tasks, array $inst
 function varbase_subprofile_basic_assemble_extra_components(array &$install_state) {
   include_once drupal_get_path('profile', 'varbase') . '/varbase.profile';
 
-  // Default Vardoc components, which must be installed.
+  // Default varbase_subprofile_basic components, which must be installed.
   $default_components = ConfigBit::getList('configbit/default.components.varbase_subprofile_basic.bit.yml', 'install_default_components', TRUE, 'dependencies', 'profile', 'varbase_subprofile_basic');
 
   $batch = [];
