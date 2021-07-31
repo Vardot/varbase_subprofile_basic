@@ -42,7 +42,7 @@ function varbase_subprofile_basic_install_tasks(&$install_state) {
       'type' => 'form',
       'function' => SubProfileAssemblerForm::class,
     ],
-    'vardoc_assemble_extra_components' => [
+    'varbase_subprofile_basic_assemble_extra_components' => [
       'display_name' => t('Assemble extra components'),
       'display' => TRUE,
       'type' => 'batch',
