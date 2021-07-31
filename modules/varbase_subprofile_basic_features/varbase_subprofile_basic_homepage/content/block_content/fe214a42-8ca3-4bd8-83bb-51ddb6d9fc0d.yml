@@ -1,0 +1,27 @@
+_meta:
+  version: '1.0'
+  entity_type: block_content
+  uuid: fe214a42-8ca3-4bd8-83bb-51ddb6d9fc0d
+  bundle: varbase_rich_text_block
+  default_langcode: en
+default:
+  revision_user:
+    -
+      target_id: 1
+  revision_log:
+    -
+      value: 'Created new Rich text'
+  status:
+    -
+      value: true
+  info:
+    -
+      value: 'Welcome to Varbase Subprofile Basic'
+  reusable:
+    -
+      value: false
+  body:
+    -
+      value: "This is an example homepage."
+      format: full_html
+      summary: ''

@@ -5,9 +5,10 @@ core_version_requirement: ^9
 version: 9.0.x-dev
 package: 'Varbase Sub Profile Basic'
 dependencies:
-  - block_content
-  - page_manager
-  - panels
-  - varbase_carousels
-  - varbase_heroslider_media
-  - views
+  - varbase_core:varbase_core
+  - varbase_media:varbase_media
+  - varbase_core:varbase_webform
+  - varbase_layout_builder:varbase_layout_builder
+  - varbase_layout_builder:vlplb
+  - default_content:default_content
+  - better_normalizers:better_normalizers

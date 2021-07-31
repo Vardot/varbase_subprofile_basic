@@ -21,6 +21,7 @@ config_bit:
         - varbase_layout_builder
         - vlplb
         # Enable default varbase sub profile basic features.
+        - varbase_subprofile_basic_homepage
 #        - varbase_subprofile_basic_CUSTOM_FEATRE_01
 #        - varbase_subprofile_basic_CUSTOM_FEATRE_02
 #        - varbase_subprofile_basic_CUSTOM_FEATRE_03
