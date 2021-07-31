@@ -1,7 +1,9 @@
 name: 'Varbase Subprofile Basic Homepage'
 description: 'Homepage feature for varbase sub profile basic.'
 type: module
-core: 8.x
+core_version_requirement: ^9
+version: 9.0.x-dev
+package: 'Varbase Sub Profile Basic'
 dependencies:
   - block_content
   - page_manager
@@ -9,5 +11,3 @@ dependencies:
   - varbase_carousels
   - varbase_heroslider_media
   - views
-version: 8.x-8.x-dev
-package: 'Varbase Sub Profile Basic'

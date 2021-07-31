@@ -27,33 +27,22 @@
     }
   },
   "require": {
-    "composer/installers": "~1.0",
-    "oomphinc/composer-installers-extender": "~1.0",
+    "composer/installers": "~1.0 || ~2.0",
+    "oomphinc/composer-installers-extender": "~1.0 || ~2.0",
     "cweagans/composer-patches": "~1.0",
-    "drupal/core-composer-scaffold": "^8.8.0",
-    "drupal/drupal-library-installer-plugin": "^0.3",
-    "webflo/drupal-finder": "~1.0",
-    "vardot/varbase": "~8.8.0"
+    "drupal/core-composer-scaffold": "^9",
+    "drupal/core": "~9.0",
+    "drupal/varbase": "9.0.x-dev"
   },
   "require-dev": {
-    "drupal/console": "~1.0",
-    "drush/drush": "~9.0",
-    "drupal/coder": "~8.0",
-    "drupal/drupal-extension": "~3.0",
-    "phing/phing": "~2.0",
-    "behat/behat": "~3.0",
-    "behat/mink": "~1.0",
-    "behat/mink-extension": "~2.0",
-    "behat/mink-goutte-driver": "~1.0",
-    "behat/mink-zombie-driver": "~1.0",
-    "behat/mink-selenium2-driver": "~1.0",
-    "behatch/contexts": "~3.0",
+    "drupal/core-dev": "~9.0",
+    "drush/drush": "~10.0",
+    "drupal/drupal-extension": "~4.0",
     "emuse/behat-html-formatter": "^0.2.0"
   },
   "config": {
     "bin-dir": "bin/",
     "secure-http": false,
-    "optimize-autoloader": true,
     "preferred-install": {
       "drupal/core": "dist"
     }
@@ -68,18 +57,14 @@
     "pre-update-cmd": ["Varbase\\composer\\ScriptHandler::checkComposerVersion"],
     "post-install-cmd": [
       "Varbase\\composer\\ScriptHandler::createRequiredFiles",
-      "Varbase\\composer\\ScriptHandler::removeGitDirectories",
-      "./bin/phing push"
+      "Varbase\\composer\\ScriptHandler::removeGitDirectories"
     ],
     "post-update-cmd": [
       "Varbase\\composer\\ScriptHandler::createRequiredFiles",
-      "Varbase\\composer\\ScriptHandler::removeGitDirectories",
-      "./bin/phing push"
+      "Varbase\\composer\\ScriptHandler::removeGitDirectories"
     ],
-    "post-drupal-scaffold-cmd": [
-      "Varbase\\composer\\ScriptHandler::postDrupalScaffoldProcedure",
-      "VarbaseSubProfileBasic\\composer\\ScriptHandler::postDrupalScaffoldSubProfileProcedure"
-    ]
+    "post-drupal-scaffold-cmd": ["Varbase\\composer\\ScriptHandler::postDrupalScaffoldProcedure"],
+    "create-new-vartheme": "scripts/create-new-vartheme.sh"
   },
   "extra": {
     "drupal-scaffold": {
@@ -88,7 +73,8 @@
       }
     },
     "branch-alias": {
-      "dev-8.x-8.x": "8.8.x-dev"
+      "dev-9.0.x": "9.0.x-dev",
+      "dev-10.0.x": "10.0.x-dev"
     },
     "installer-types": [
       "bower-asset",
@@ -101,7 +87,8 @@
       "docroot/themes/contrib/{$name}": ["type:drupal-theme"],
       "docroot/libraries/slick": ["npm-asset/slick-carousel"],
       "docroot/libraries/ace": ["npm-asset/ace-builds"],
-      "docroot/libraries/masonry": ["npm-asset/masonry-layout"],
+      "docroot/libraries/jquery-ui-touch-punch": ["bower-asset/jqueryui-touch-punch"],
+      "docroot/libraries/swagger-ui/dist": ["npm-asset/swagger-ui-dist"],
       "docroot/libraries/{$name}": [
         "type:drupal-library",
         "type:bower-asset",
@@ -114,22 +101,29 @@
     "drupal-libraries": {
       "library-directory": "docroot/libraries",
       "libraries": [
+        {"name": "objectfitpolyfill", "package": "bower-asset/objectfitpolyfill"},
+        {"name": "chartjs", "package": "bower-asset/chartjs"},
+        {"name": "c3","package": "bower-asset/c3"},
+        {"name": "d3", "package": "bower-asset/d3"},
         {"name": "dropzone","package": "npm-asset/dropzone"},
         {"name": "blazy", "package": "npm-asset/blazy"},
         {"name": "slick", "package": "npm-asset/slick-carousel"},
         {"name": "ace", "package": "npm-asset/ace-builds"},
-        {"name": "chartjs", "package": "bower-asset/chartjs"},
-        {"name": "c3","package": "bower-asset/c3"},
-        {"name": "d3", "package": "bower-asset/d3"},
-        {"name": "masonry", "package": "npm-asset/masonry-layout"},
+        {"name": "jquery-ui-touch-punch", "package": "bower-asset/jqueryui-touch-punch"},
         {"name": "imagesloaded", "package": "npm-asset/imagesloaded"},
-        {"name": "swagger-ui", "package": "swagger-api/swagger-ui"}
+        {"name": "swagger-ui", "package": "npm-asset/swagger-ui-dist"}
       ]
     },
     "enable-patching": true,
     "composer-exit-on-patch-failure": true,
     "patchLevel": {
-       "drupal/core": "-p2"
+      "drupal/core": "-p2"
+    },
+    "patches": {
+      "drupal/core": {
+        "Issue #1356276: Allow profiles to define a base/parent profile":
+        "https://www.drupal.org/files/issues/2021-05-20/3143958-14-subprofile-support-9.2.x.patch"
+      }
     }
   }
 }
