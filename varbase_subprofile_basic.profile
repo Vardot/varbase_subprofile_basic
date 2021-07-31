@@ -5,11 +5,16 @@
  * site installation.
  */
 
+use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
-use Drupal\varbase\Form\AssemblerForm;
-use Drupal\varbase\Form\ConfigureMultilingualForm;
 use Drupal\varbase\Config\ConfigBit;
+use Drupal\varbase\Form\ConfigureMultilingualForm;
+use Drupal\varbase\Form\AssemblerForm;
+use Drupal\varbase\Form\DevelopmentToolsAssemblerForm;
+use Drupal\varbase\Entity\VarbaseEntityDefinitionUpdateManager;
+use Drupal\node\Entity\Node;
+use Drupal\path_alias\Entity\PathAlias;
 use Drupal\varbase_subprofile_basic\Form\SubProfileAssemblerForm;
 
 /**
@@ -30,10 +35,6 @@ function varbase_subprofile_basic_install_tasks(&$install_state) {
   $varbase_install_tasks = varbase_install_tasks($install_state);
 
   return [
-    'varbase_multilingual_configuration_form' => $varbase_install_tasks['varbase_multilingual_configuration_form'],
-    'varbase_configure_multilingual' => $varbase_install_tasks['varbase_configure_multilingual'],
-//    'varbase_extra_components' => $varbase_install_tasks['varbase_extra_components'],
-//    'varbase_assemble_extra_components' => $varbase_install_tasks['varbase_assemble_extra_components'],
     'varbase_subprofile_basic_extra_components' => [
       'display_name' => t('Extra components'),
       'display' => TRUE,
@@ -51,6 +52,15 @@ function varbase_subprofile_basic_install_tasks(&$install_state) {
 }
 
 /**
+ * Implements hook_install_tasks_alter().
+ */
+function varbase_subprofile_basic_install_tasks_alter(array &$tasks, array $install_state) {
+  include_once drupal_get_path('profile', 'varbase') . '/varbase.profile';
+
+  $tasks['install_finished']['function'] = 'vardoc_after_install_finished';
+}
+
+/**
  * Batch job to assemble Varbase extra components.
  *
  * @param array $install_state
@@ -60,7 +70,9 @@ function varbase_subprofile_basic_install_tasks(&$install_state) {
  *   The batch job definition.
  */
 function varbase_subprofile_basic_assemble_extra_components(array &$install_state) {
-  // Default Varbase components, which must be installed.
+  include_once drupal_get_path('profile', 'varbase') . '/varbase.profile';
+
+  // Default Vardoc components, which must be installed.
   $default_components = ConfigBit::getList('configbit/default.components.varbase_subprofile_basic.bit.yml', 'install_default_components', TRUE, 'dependencies', 'profile', 'varbase_subprofile_basic');
 
   $batch = [];
@@ -119,6 +131,9 @@ function varbase_subprofile_basic_assemble_extra_components(array &$install_stat
 
     // Fix entity updates to clear up any mismatched entity.
     $batch['operations'][] = ['varbase_fix_entity_update', (array) TRUE];
+
+    // Rebuilds all permissions on site content, and may be a lengthy process.
+    $batch['operations'][] = ['varbase_subprofile_basic_node_access_rebuild', (array) TRUE];
   }
 
   // Install selected Demo content.
@@ -158,7 +173,14 @@ function varbase_subprofile_basic_assemble_extra_components(array &$install_stat
 
             // Added the selected development configs to the batch process
             // with the same function name in the formbit.
-            $batch['operations'][] = ['varbase_save_editable_config_values', (array) [$demo_content_key, $formbit_file_name, $selected_demo_content_configs]];
+            $batch['operations'][] = [
+              'varbase_save_editable_config_values',
+              [
+                $demo_content_key,
+                $formbit_file_name,
+                $selected_demo_content_configs,
+              ],
+            ];
           }
         }
       }
@@ -170,7 +192,125 @@ function varbase_subprofile_basic_assemble_extra_components(array &$install_stat
     // Fix entity updates to clear up any mismatched entity.
     $batch['operations'][] = ['varbase_fix_entity_update', (array) TRUE];
 
+    // Rebuilds all permissions on site content, and may be a lengthy process.
+    $batch['operations'][] = ['varbase_subprofile_basic_node_access_rebuild', (array) TRUE];
+
   }
 
   return $batch;
+}
+
+/**
+ * varbase_subprofile_basic after install finished.
+ *
+ * @param array $install_state
+ *   The current install state.
+ *
+ * @return array
+ *   A renderable array with a redirect header.
+ */
+function varbase_subprofile_basic_after_install_finished(array &$install_state) {
+
+  // Mark all updates by the update helper checklist as successful on install.
+  if (\Drupal::moduleHandler()->moduleExists('update_helper_checklist')) {
+    $checkList = \Drupal::service('update_helper_checklist.update_checklist');
+    $checkList->markAllUpdates();
+  }
+
+  // Entity updates to clear up any mismatched entity and/or field definitions
+  // And Fix changes were detected in the entity type and field definitions.
+  \Drupal::classResolver()
+    ->getInstanceFromDefinition(VarbaseEntityDefinitionUpdateManager::class)
+    ->applyUpdates();
+
+  // Full flash and clear cash and rebuilding newly created routes.
+  // After install of extra modules by install: in the .info.yml files.
+  // In Varbase profile and all Varbase components.
+  // ---------------------------------------------------------------------------
+  // * Necessary inlitilization for the entire system.
+  // * Account for changed config by the end install.
+  // * Flush all persistent caches.
+  // * Flush asset file caches.
+  // * Wipe the Twig PHP Storage cache.
+  // * Rebuild module and theme data.
+  // * Clear all plugin caches.
+  // * Rebuild the menu router based on all rebuilt data.
+  drupal_flush_all_caches();
+
+  // Set front page to "/node".
+  // Issue #3188641: Change the set front page to "/node" process from
+  // using static node id to front page path by the alias.
+  // https://www.drupal.org/project/varbase_core/issues/3188641
+  try {
+    $path_alias_query = \Drupal::entityQuery('path_alias');
+    $path_alias_query->condition('alias', '/node', '=');
+    $alias_ids = $path_alias_query->execute();
+
+    if (count($alias_ids) > 0) {
+      foreach ($alias_ids as $alias_id) {
+
+        if (!(end($alias_ids))) {
+          $path_alias = PathAlias::load($alias_id);
+          $path_alias->delete();
+        }
+        else {
+          $page_front_path = PathAlias::load($alias_id)->getPath();
+
+          \Drupal::configFactory()->getEditable('system.site')
+          ->set('page.front', $page_front_path)
+          ->save();
+        }
+      }
+    }
+  } catch (\Exception $e) {
+    \Drupal::messenger()->addError($e->getMessage());
+  }
+
+  global $base_url;
+
+  // After install direction.
+  $after_install_direction = $base_url . '/';
+
+  install_finished($install_state);
+  $output = [];
+
+  // Clear all messages.
+  \Drupal::service('messenger')->deleteAll();
+
+  $output = [
+    '#title' => t('Varbase Subprofile Basic'),
+    'info' => [
+      '#markup' => t('<p>Congratulations, you have installed Varbase Subprofile Basic !</p><p>If you are not redirected to the front page in 5 seconds, Please <a href="@url">click here</a> to proceed to your installed site.</p>', [
+        '@url' => $after_install_direction,
+      ]),
+    ],
+    '#attached' => [
+      'http_header' => [
+        ['Cache-Control', 'no-cache'],
+      ],
+    ],
+  ];
+
+  $meta_redirect = [
+    '#tag' => 'meta',
+    '#attributes' => [
+      'http-equiv' => 'refresh',
+      'content' => '0;url=' . $after_install_direction,
+    ],
+  ];
+  $output['#attached']['html_head'][] = [$meta_redirect, 'meta_redirect'];
+
+  return $output;
+}
+
+/**
+ * Rebuilds all permissions on site content, and may be a lengthy process.
+ *
+ * @param string|array $rebuild_permissions
+ *   To rebuilds permissions or not.
+ */
+function varbase_subprofile_basic_node_access_rebuild($rebuild_permissions) {
+  if ($rebuild_permissions) {
+    node_access_rebuild(TRUE);
+  }
 }

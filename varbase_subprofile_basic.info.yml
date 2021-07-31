@@ -9,13 +9,8 @@ dependencies:
   - tracker
   - aggregator
 themes:
-  # Contrib themes.
   - bootstrap_barrio
-
-  # Custom themes.
   - vartheme_bs4
+  - seven
+  - claro
   - vartheme_claro
-distribution:
-  name: Varbase Sub Profile Basic
-  install:
-    theme: vartheme_claro

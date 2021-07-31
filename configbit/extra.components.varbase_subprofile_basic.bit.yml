@@ -9,6 +9,11 @@ config_bit:
     show_extra_components: true
     list:
       dependencies:
+        varbase_media_header:
+          title: "Varbase Media Header"
+          description: "Populates the universal media header style on top of web pages. Which lets site builders activate that for content types."
+          selected: false
+          config_form: false
         varbase_search:
           title: "Varbase Search"
           description: "A suite of site search engine tools to help you build better search performance, customization, and search experience. Built using <a href=\"https://www.drupal.org/project/search_api\" target=\"_blank\">Search API</a>."
