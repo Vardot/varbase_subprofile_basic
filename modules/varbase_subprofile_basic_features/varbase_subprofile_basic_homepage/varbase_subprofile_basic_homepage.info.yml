@@ -7,7 +7,6 @@ package: 'Varbase Sub Profile Basic'
 dependencies:
   - varbase_core:varbase_core
   - varbase_media:varbase_media
-  - varbase_core:varbase_webform
   - varbase_layout_builder:varbase_layout_builder
   - varbase_layout_builder:vlplb
   - default_content:default_content
